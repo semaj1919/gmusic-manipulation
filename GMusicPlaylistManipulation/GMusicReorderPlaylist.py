@@ -23,9 +23,14 @@ def get_argsparser():
     #global args
     return parser.parse_args()
 
-def get_song_timestamp_from_track(track):
-    song = SongHelper.get_song_from_track(track, storage.songs)
-    return SongHelper.get_song_timestamp(song)
+def get_song_timestamp_from_track(track, api):
+
+    song = SongHelper.get_song_from_track(track, storage.songs, api)
+    if song.has_key(GMusicKeys.SongKeys.CreationTimestampKey):
+        return SongHelper.get_song_timestamp(song)
+    else:
+        return SongHelper.get_song_timestamp(track)
+        #return None
 
 def main():
     global storage
@@ -50,7 +55,7 @@ def main():
             storage.songs = api.get_all_songs()
         
             #newest entries first
-            sorted_tracks = [track for track in sorted(storage.tracks, key=get_song_timestamp_from_track, reverse=True)]    
+            sorted_tracks = [track for track in sorted(storage.tracks, key=lambda single_track: get_song_timestamp_from_track(single_track, api), reverse=True)]    
             log.debug("Successfully sorted by Date Added (DESC)")
         
             new_playlist = api.create_playlist(playlist_name + str(1))

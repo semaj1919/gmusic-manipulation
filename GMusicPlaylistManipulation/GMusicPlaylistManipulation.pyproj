@@ -29,6 +29,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GMusicPlaylistManipulation.py" />
+	<Compile Include="print_playlist_songs.py" />
     <Compile Include="GMusicReorderPlaylist.py">
       <SubType>Code</SubType>
     </Compile>

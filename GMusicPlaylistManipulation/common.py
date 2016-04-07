@@ -18,9 +18,15 @@ class ProgramVars:
 def login():
     api = Mobileclient()
     user_pass = getpass()
-    if api.login(ProgramVars.username, user_pass):
-        return api
-    else:
+    ProgramVars.log.debug("Logging in...")
+
+    try:
+        if api.login(ProgramVars.username, user_pass, Mobileclient.FROM_MAC_ADDRESS):
+            return api
+        else:
+            return None
+    except:
+        ProgramVars.log.exception(sys.exc_info()[0])
         return None
 
 class GMusicKeys:
@@ -32,14 +38,22 @@ class GMusicKeys:
         LastModifiedTimestampKey = 'lastModifiedTimestamp'
     class SongKeys:
         SongIdKey = 'id'
-        playCountKey = 'playCount'
+        PlayCountKey = 'playCount'
         CreationTimestampKey = 'creationTimestamp'
         TitleKey = 'title'
         AlbumArtRefKey = 'albumArtRef'
         AlbumArtUrlKey = 'url'
+        RecentTimestampKey = 'recentTimestamp'
+        RatingKey = 'rating'
+        TrackTypeKey = 'trackType'
+        AlbumKey = 'album'
+        AlbumArtistKey = 'albumArtist'
+        LastModifiedTimestampKey = 'lastModifiedTimestamp'
     class PlaylistKeys:
         PlaylistIdKey = 'id'
         NameKey = 'name'
         TracksKey = 'tracks'
+class PrinterKeys:
+    Keys = ['artistId', GMusicKeys.SongKeys.TrackTypeKey, GMusicKeys.SongKeys.SongIdKey, 'composer', 'year', GMusicKeys.SongKeys.AlbumKey, GMusicKeys.SongKeys.TitleKey, GMusicKeys.SongKeys.AlbumArtistKey, 'artist', GMusicKeys.SongKeys.PlayCountKey, 'durationMillis', GMusicKeys.SongKeys.CreationTimestampKey, GMusicKeys.SongKeys.RecentTimestampKey, GMusicKeys.SongKeys.LastModifiedTimestampKey]
     
 

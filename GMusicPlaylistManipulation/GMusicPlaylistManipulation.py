@@ -45,11 +45,16 @@ def main():
             
             filtered_songs = SongHelper.FilterByPlaycount(songs, minimum_playcount)
                 
-            top_songs = SongHelper.SortByPlaycount(filtered_songs, True) 
+            date_ordered_songs = SongHelper.SortByLastPlayedDate(filtered_songs, True)
+            rating_ordered_songs = SongHelper.SortByRating(date_ordered_songs, True)
+            top_songs = SongHelper.SortByPlaycount(rating_ordered_songs, True) 
             log.debug("Successfully sorted songs with a play count greater than " + str(minimum_playcount) + ".  Size: " + str(len(top_songs)))
     
             small_top_songs = top_songs[:playlist_max_size]
             log.debug("Successfully grabbed the top " + str(len(small_top_songs)) + "  songs.")
+
+            #for index in range(len(small_top_songs)):
+            #    log.debug("[" + str(index) + "]: Rating = --" + str(small_top_songs[index]['rating']) + "--")
 
     
             playlist = api.create_playlist(playlist_name)
